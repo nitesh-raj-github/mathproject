@@ -1,5 +1,3 @@
-rom termcolor import colored
-
 def print_line_separator():
     print(
         colored('\n{{<<', 'red') +

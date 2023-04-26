@@ -37,7 +37,7 @@ class DecodeBase:
         which is '�' and 'U+FFFD' in unicode and
         also checks for unicode chars after `127`.
         """
-        if u'\ufffd' in res: return True
+        if u'' in res: return True
         else:
             count = 0
             for char in res:
@@ -45,11 +45,6 @@ class DecodeBase:
             return True if count > 0 else False
 
     def process_decode(self, decode_string, scheme):
-        """
-        `process_decode()` stores the result if the encoding is valid
-        after checks from `contains_replacement_char()` and
-        prints the output if it isn't an API call
-        """
         encoding_type = self.encoding_type
         results = self.results
 
@@ -104,11 +99,6 @@ class DecodeBase:
         # decoding as base32 (RFC 3548)
         if not self.b32_once:
             try:
-                """
-                Base32 charset can differ based on their spec, this requires stripping
-                the padding or changing charsets to get the correct results.
-                By default this `anybase32` implementation follows the RFC 3548 spec.
-                """
                 temp_clean_base = str.encode(encoded_base.replace('=', ''))
                 process_decode(
                     anybase32.decode(temp_clean_base).decode('utf-8', 'replace'),
